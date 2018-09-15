@@ -199,31 +199,6 @@ async def clear(ctx, amount=None):
         embed.set_footer(text='You cant use this command!')
         await client.say(embed=embed)
  
-@client.command(pass_context=True)
-async def help(ctx):
-    author = ctx.message.author
-    embed = discord.Embed(color=0xff00e6)
-    embed.set_author(name='Judge Help!')
-    embed.add_field(name='PMs Message?', value='You will get a PM with Reactions click each reaction to see what they do!', inline=False)
-    msg = await client.say(embed=embed)
-    await client.add_reaction(msg, "\U0001f389")
-    await client.wait_for_reaction("\U0001f389")
-    embed = discord.Embed(color=0xff00e6)
-    embed.add_field(name='Commands:', value=':tada: ``Fun Commands`` \n :tools: ``Moderation`` \n :lock: ``Administration`` \n :timer: ``Utility``', inline=False)
-    msg2 = await client.send_message(author, embed=embed)
-    embed = discord.Embed(color=0xff00e6)
-    embed.set_author(name='Utility Commands!')
-    embed.add_field(name='Commands:', value='1. Serverinfo: __Usage__: ``j!serverinfo`` Will Show you all the servers info! \n 2. Info: __Usage__: ``j!info @Savage`` Will show you the users info!', inline=False)
-    await client.wait_for_reaction("\U000023f2")
-    await client.edit_message(msg2, embed=embed)
-    embed = discord.Embed(color=0xff00e6)
-    embed.set_author(name='Fun Commands!')
-    embed.add_field(name='Commands:', value='1. Ping: __Usage__: ``j!ping`` Shows the bots ping in MillaSeconds \n 2. Guilty: __Usage__: ``j!guilty @Savage`` Will randomly pick a comment \n 3. Jail: __Usage__: ``j!jail @Savage`` It is just like guilty it will pick a random coment!', inline=False)
-    await client.add_reaction(msg2, "\U000023f2")
-    await client.add_reaction(msg2, "\U0001f389")
-    await client.add_reaction(msg2, "\U0001f512")
-    await client.wait_for_reaction("\U001f389")
-    await client.edit_message(msg2, embed=embed)
 
 
 
