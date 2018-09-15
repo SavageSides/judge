@@ -295,4 +295,6 @@ async def on_member_remove(member):
     channel = discord.utils.get(server.channels, name='welcome')
     await client.send_message(channel, '{} Has just left {} :('.format(member.mention, server.name))
 
-client.run("TOKEN")
+if not os.environ.get('TOKEN'):
+    print("no token found!")
+client.run(os.environ.get('TOKEN').strip('"'))
