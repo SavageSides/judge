@@ -209,7 +209,8 @@ async def help(ctx):
     embed.add_field(name=':third_place: | Court :', value='Guilty: __Usage__: j!guilty @Savage \n Jail: __Usage__: j!jail @Savage', inline=False)
     embed.add_field(name=':thinking: | Message Sending :', value='Poll: __Usage__: j!poll <channel> <poll>', inline=True)
     msg = await client.send_message(author, embed=embed)
-    await client.add_reaction(msg, "↔️")
+    await client.add_reaction(msg, "\U00002705")
+    await client.add_reaction(msg, "\U0000274c")
 
 
 
