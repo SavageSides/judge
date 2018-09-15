@@ -294,3 +294,5 @@ async def on_member_remove(member):
     server = member.server
     channel = discord.utils.get(server.channels, name='welcome')
     await client.send_message(channel, '{} Has just left {} :('.format(member.mention, server.name))
+
+client.run("TOKEN")
