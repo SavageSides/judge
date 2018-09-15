@@ -204,7 +204,7 @@ async def help(ctx):
     author = ctx.message.author
     embed = discord.Embed(color=0xff00e6)
     embed.set_author(name='Judge Help!')
-    embed.add_field(name='Commands:', value=':tada: ``Fun Commands`` \n :tools: ``Moderation`` \n :lock: ``Administration`` \n :ping_pong: ``Utility``', inline=False)
+    embed.add_field(name='Commands:', value=':tada: ``Fun Commands`` \n :tools: ``Moderation`` \n :lock: ``Administration`` \n :timer: ``Utility``', inline=False)
     msg = await client.send_message(author, embed=embed)
     await client.add_reaction(msg, "\U000023f2")
     await client.add_reaction(msg, "\U0001f389")
