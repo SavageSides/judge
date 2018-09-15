@@ -198,14 +198,12 @@ async def clear(ctx, amount=None):
         embed.add_field(name=':interrobang: **Error**', value='Oops! You cant use this command. Permission Required: ``Manage Messages``', inline=False)
         embed.set_footer(text='You cant use this command!')
         await client.say(embed=embed)
-
 @client.command(pass_context=True)
 async def help(ctx):
     author = ctx.message.author
     embed = discord.Embed(color=0xff00e6)
     embed.set_author(name='Judge Help!')
     embed.add_field(name='PMs Message?', value=':tada: Please press this if you would like a PM Message!', inline=False)
-    embed.add_field(name='Channel Message?', value=':lock: Please press if you would like to have this send in the channel!')
     msg = await client.say(embed=embed)
     await client.add_reaction(msg, "\U0001f389")
     await client.add_reaction(msg, "\U0001f512")
@@ -216,13 +214,11 @@ async def help(ctx):
     await client.add_reaction(msg, "\U000023f2")
     await client.add_reaction(msg, "\U0001f389")
     await client.add_reaction(msg, "\U0001f512")
-    await client.wait_for_reaction("\U0001f512")
+    await client.wait_for_reaction("\U000023f2")
     embed = discord.Embed(color=0xff00e6)
-    embed.add_field(name='Commands:', value=':tada: ``Fun Commands`` \n :tools: ``Moderation`` \n :lock: ``Administration`` \n :timer: ``Utility``', inline=False)
-    msg = await client.say(embed=embed)
-    await client.add_reaction(msg, "\U000023f2")
-    await client.add_reaction(msg, "\U0001f389")
-    await client.add_reaction(msg, "\U0001f512")
+    embed.set_author(name='Utility Commands!')
+    embed.add_field(name='Commands:', value='Test', inline=False)
+    await client.edit_message(msg, embed=embed)
 
 
 
