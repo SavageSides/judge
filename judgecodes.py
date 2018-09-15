@@ -202,10 +202,10 @@ async def clear(ctx, amount=None):
 @client.command(pass_context=True)
 async def help(ctx):
     author = ctx.message.author
-    embed = discord.Embed(color0xff00e6)
-    embed.set_author(name='Helping and ready to provide!')
-    embed.add_field(name='Reaction Legend:', value=':timer: ``Time Category`` \n :tada: ``Fun Commands`` \n :lock: ``Administration`` \n :tools: ``Moderation`` \n :ping_pong: ``Utility``', inline=False)
-    msg = await client.send_message(author, embed=embed)
+    embed = discord.Embed(color=0xff00e6)
+    embed.set_author(name='Judge Help!')
+    embed.add_field(name='Commands:', value=':tada: ``Fun Commands`` \n :tools: ``Moderation`` \n :lock: ``Administration`` \n :ping_pong: ``Utility``', inline=False)
+    mdg = await client.send_message(author, embed=embed)
     await client.add_reaction(msg, "\U000023f2")
     await client.add_reaction(msg, "\U0001f389")
     await client.add_reaction(msg, "\U0001f512")
