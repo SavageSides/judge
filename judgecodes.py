@@ -202,15 +202,13 @@ async def clear(ctx, amount=None):
 @client.command(pass_context=True)
 async def help(ctx):
     author = ctx.message.author
-    embed = discord.Embed(color=0xff00e6)
-    embed.set_author(name='Judge Help!')
-    embed.add_field(name=':hammer_pick: | Moderation :', value='Nick: __Usage__: j!nick @Savage Nickname \n Mute: __Usage__: j!mute @Savage \n Unmute: __Usage__: j!unmute @Savage \n Clear: __Usage__: j!clear 5 \n Ban: __Usage__: j!ban @Savage \n Kick: __Usage__: j!kick @Savage', inline=False)
-    embed.add_field(name=':tada: | Party/Fun :', value='Ping', inline=True)
-    embed.add_field(name=':third_place: | Court :', value='Guilty: __Usage__: j!guilty @Savage \n Jail: __Usage__: j!jail @Savage', inline=False)
-    embed.add_field(name=':thinking: | Message Sending :', value='Poll: __Usage__: j!poll <channel> <poll>', inline=True)
+    embed = discord.Embed(color0xff00e6)
+    set_author(name='Helping and ready to provide!', icon_url=client.user.default_avatar_url)
+    embed.add_field(name='Reaction Legend:', value=':timer: ``Time Category`` \n :tada: ``Fun Commands`` \n :lock: ``Administration`` \n :tools: ``Moderation`` \n :ping_pong: ``Utility``', inline=False)
     msg = await client.send_message(author, embed=embed)
-    await client.add_reaction(msg, "\U00002705")
-    await client.add_reaction(msg, "\U0000274c")
+    await client.add_reaction(msg, "\U000023f2")
+    await client.add_reaction(msg, "\U0001f389")
+    await client.add_reaction(msg, "\U0001f512")
 
 
 
