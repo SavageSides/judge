@@ -223,7 +223,7 @@ async def help(ctx):
     await client.add_reaction(msg2, "\U000023f2")
     await client.add_reaction(msg2, "\U0001f389")
     await client.add_reaction(msg2, "\U0001f512")
-    await client.edit_message(msg, embed=embed)
+    await client.edit_message(msg2, embed=embed)
 
 
 
