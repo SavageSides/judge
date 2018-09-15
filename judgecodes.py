@@ -3,6 +3,7 @@ import time
 import asyncio
 import random
 from discord.ext import commands
+import os
 
 
 client = commands.Bot(command_prefix='j!')
