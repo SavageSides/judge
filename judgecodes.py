@@ -198,6 +198,7 @@ async def clear(ctx, amount=None):
         embed.add_field(name=':interrobang: **Error**', value='Oops! You cant use this command. Permission Required: ``Manage Messages``', inline=False)
         embed.set_footer(text='You cant use this command!')
         await client.say(embed=embed)
+ 
 @client.command(pass_context=True)
 async def help(ctx):
     author = ctx.message.author
@@ -206,7 +207,6 @@ async def help(ctx):
     embed.add_field(name='PMs Message?', value=':tada: Please press this if you would like a PM Message!', inline=False)
     msg = await client.say(embed=embed)
     await client.add_reaction(msg, "\U0001f389")
-    await client.add_reaction(msg, "\U0001f512")
     await client.wait_for_reaction("\U0001f389")
     embed = discord.Embed(color=0xff00e6)
     embed.add_field(name='Commands:', value=':tada: ``Fun Commands`` \n :tools: ``Moderation`` \n :lock: ``Administration`` \n :timer: ``Utility``', inline=False)
@@ -217,8 +217,39 @@ async def help(ctx):
     await client.wait_for_reaction("\U000023f2")
     embed = discord.Embed(color=0xff00e6)
     embed.set_author(name='Utility Commands!')
-    embed.add_field(name='Commands:', value='Test', inline=False)
+    embed.add_field(name='Commands:', value='1. Serverinfo: __Usage__: ``j!serverinfo`` Will Show you all the servers info! \n 2. Info: __Usage__: ``j!info @Savage`` Will show you the users info!', inline=False)
     await client.edit_message(msg, embed=embed)
+
+
+
+@client.command(pass_context=True)
+async def serverinfo(ctx):
+    embed = discord.Embed(name="{}'s info".format(ctx.message.server.name), description="Here's what I could find.", color=0xff00e6)
+    embed.set_author(name="Server info")
+    embed.add_field(name="**Name**", value=ctx.message.server.name, inline=True)
+    embed.add_field(name="**ID**", value=ctx.message.server.id, inline=True)
+    embed.add_field(name="**Roles**", value=len(ctx.message.server.roles), inline=True)
+    embed.add_field(name="**Members**", value=len(ctx.message.server.members))
+    embed.set_thumbnail(url=ctx.message.server.icon_url)
+    await client.say(embed=embed)
+
+@client.command(pass_context=True)
+async def info(ctx, user: discord.Member = None):
+    if user is None:
+        embed = discord.Embed(color=0x36393E)
+        embed.add_field(name=':interrobang: **Error**', value='Oops! Please specify a user for me to give info about!', inline=False)
+        await client.say(embed=embed)
+    embed = discord.Embed(title="{}'s info".format(user.name), description="Here's what I could find.", color=0x36393E)
+    embed=discord.Embed(color=0xff00e6)
+    embed.add_field(name="**Users Name Is:**", value="{}".format(user.name), inline=False)
+    embed.add_field(name="**Highest Role Is:**", value="{}".format(user.top_role), inline=False)
+    embed.add_field(name="**Users ID Is:**", value="{}".format(user.id), inline=False)
+    embed.add_field(name="**Users Nickname Is:**", value="{}".format(user.nick), inline=False)
+    embed.add_field(name="**Users Status Is:**", value="{}".format(user.status), inline=False)
+    embed.add_field(name="**Users Game Is:**", value="{}".format(user.game), inline=False)
+    embed.set_thumbnail(url=user.avatar_url)
+    await client.say(embed=embed)
+    
 
 
 
