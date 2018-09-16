@@ -321,17 +321,17 @@ async def poll(ctx, channel_name = None, *, text):
         await asyncio.sleep(2)
         await client.delete_message(msg)
 
-@bot.command()
+@client.command()
 async def roll(dice : str):
     """Rolls a dice in NdN format."""
     try:
         rolls, limit = map(int, dice.split('d'))
     except Exception:
-        await bot.say('Format has to be in NdN!')
+        await client.say('Format has to be in NdN!')
         return
 
     result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
-    await bot.say(result)
+    await client.say(result)
 
 #Welcome and Leave messages!
 
