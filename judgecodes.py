@@ -230,7 +230,13 @@ async def info(ctx, user: discord.Member = None):
     embed.set_thumbnail(url=user.avatar_url)
     await client.say(embed=embed)
     
-
+@client.command(pass_context=True)
+async def help(ctx):
+    author = ctx.message.author
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.set_author(name='Idk')
+    embed.add_field(name='Idk', value='Idk', inline=False)
+    await client.say(embed=embed)
 
 
 @client.event
