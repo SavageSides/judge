@@ -214,6 +214,7 @@ async def help(ctx):
     await client.wait_for_reaction("\U0001f511")
     embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
     embed.add_field(name='Moderation Commands', value='1. Kick: __Usage__: ``j!kick @Savage`` **Reason But you do not have to!** \n 2. Ban: __Usage__: ``j!ban @Savage`` **Reason But you do not have to!** \n 3. Mute: __Usage__: ``j!mute @Savage`` **Reason But you do not have to!** \n 4. Unmute: __Usage__: ``j!unmute @Savage`` \n 5. Clear: __Usage__: ``j!clear 5`` \n Nick: __Usage__: ``j!nick @Savage Dad``', inline=False)
+    embed.add_field(name='Utility Commands')
     embed.set_footer(text='Page 2/2')
     await client.edit_message(msg, embed=embed)
 
@@ -245,11 +246,6 @@ async def info(ctx, user: discord.Member = None):
     embed.add_field(name="**Users Game Is:**", value="{}".format(user.game), inline=False)
     embed.set_thumbnail(url=user.avatar_url)
     await client.say(embed=embed)
-
-
-
-
-
 
 
 @client.event
@@ -325,6 +321,18 @@ async def poll(ctx, channel_name = None, *, text):
         await asyncio.sleep(2)
         await client.delete_message(msg)
 
+@bot.command()
+async def roll(dice : str):
+    """Rolls a dice in NdN format."""
+    try:
+        rolls, limit = map(int, dice.split('d'))
+    except Exception:
+        await bot.say('Format has to be in NdN!')
+        return
+
+    result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
+    await bot.say(result)
+
 #Welcome and Leave messages!
 
 
@@ -334,8 +342,7 @@ async def on_member_join(member):
     server = member.server
     channel = discord.utils.get(server.channels, name='welcome')
     embed = discord.Embed(color=0xdaff00)
-    embed.add_field(name='Welcome **{}**'.format(member.name), value='You have joined **{}** Please notify and follow the channels and rules of this server!', inline=False)
-    embed.set_footer(text=member.avatar_url)
+    embed.add_field(name='Welcome **{}**'.format(member.name), value='You have joined **{}** Please notify and follow the channels and rules of this server!'.format(server.name), inline=False)
     await client.send_message(channel, embed=embed)
 
 @client.event
@@ -345,7 +352,6 @@ async def on_member_remove(member):
     channel = discord.utils.get(server.channels, name='welcome')
     embed = discord.Embed(color=0xdaff00)
     embed.add_field(name='Goodbye **{}**'.format(member.name), value='You will be missed!', inline=False)
-    embed.set_author(name=member.avatar_url)
     await client.send_message(channel, embed=embed)
 
 client.run(TOKEN)
