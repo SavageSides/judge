@@ -198,6 +198,20 @@ async def clear(ctx, amount=None):
         embed.add_field(name=':interrobang: **Error**', value='Oops! You cant use this command. Permission Required: ``Manage Messages``', inline=False)
         embed.set_footer(text='You cant use this command!')
         await client.say(embed=embed)
+        
+ @client.command(pass_context=True)
+async def help(ctx):
+    author = ctx.message.author
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.set_author(name='Idk')
+    embed.add_field(name='Idk', value='Idk', inline=False)
+    msg = await client.say(embed=embed)
+    await client.add_reaction(msg, "\U0001f44d")
+    await client.add_reaction(msg, "\U0001f44e")
+    await client.wait_for_reaction("\U0001f44d")
+    await client.edit_message(msg, "Daddys Home")
+    await client.for_for_reaction("\U0001f44d")
+    await client.edit_mssage(msg, "Idk")
  
 
 
