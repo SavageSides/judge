@@ -3,8 +3,8 @@ import time
 import asyncio
 import random
 from discord.ext import commands
-import os
 
+TOKEN = 'NDg5OTM1MzgzMTI4MzA5Nzcw.Dn9P8Q.EJKoGdlyUodp0bxtyao1HyISfyM'
 
 client = commands.Bot(command_prefix='j!')
 client.remove_command('help')
@@ -198,22 +198,24 @@ async def clear(ctx, amount=None):
         embed.add_field(name=':interrobang: **Error**', value='Oops! You cant use this command. Permission Required: ``Manage Messages``', inline=False)
         embed.set_footer(text='You cant use this command!')
         await client.say(embed=embed)
-        
- @client.command(pass_context=True)
+
+@client.command(pass_context=True)
 async def help(ctx):
     author = ctx.message.author
     embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
-    embed.set_author(name='Idk')
-    embed.add_field(name='Idk', value='Idk', inline=False)
+    embed.set_author(name='Judge Help!')
+    embed.add_field(name='Main Commands', value='1. Sevrerinfo: __Usage__: ``j!serverinfo`` \n 2. Info: __Usage__: ``j!info @Savage``', inline=False)
+    embed.add_field(name='Fun Commands', value='1. Ping: __Usage__: ``j!ping`` \n 2. Jail: __Usage__: ``j!jail @Savage`` \n 3. Guilty: __Usage__: ``j!guilty @Savage``', inline=True)
+    embed.add_field(name='Legend', value=':key: Is the Short Cut to the other page of the help command!', inline=True)
+    embed.set_footer(text='Page 1/2')
     msg = await client.say(embed=embed)
-    await client.add_reaction(msg, "\U0001f44d")
-    await client.add_reaction(msg, "\U0001f44e")
-    await client.wait_for_reaction("\U0001f44d")
-    await client.edit_message(msg, "Daddys Home")
-    await client.for_for_reaction("\U0001f44d")
-    await client.edit_mssage(msg, "Idk")
- 
-
+    await client.add_reaction(msg, "\U0001f511")
+    await client.add_reaction(msg, "\U0001f3c1")
+    await client.wait_for_reaction("\U0001f511")
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Moderation Commands', value='1. Kick: __Usage__: ``j!kick @Savage`` **Reason But you do not have to!** \n 2. Ban: __Usage__: ``j!ban @Savage`` **Reason But you do not have to!** \n 3. Mute: __Usage__: ``j!mute @Savage`` **Reason But you do not have to!** \n 4. Unmute: __Usage__: ``j!unmute @Savage`` \n 5. Clear: __Usage__: ``j!clear 5`` \n Nick: __Usage__: ``j!nick @Savage Dad``', inline=False)
+    embed.set_footer(text='Page 2/2')
+    await client.edit_message(msg, embed=embed)
 
 
 @client.command(pass_context=True)
@@ -243,14 +245,11 @@ async def info(ctx, user: discord.Member = None):
     embed.add_field(name="**Users Game Is:**", value="{}".format(user.game), inline=False)
     embed.set_thumbnail(url=user.avatar_url)
     await client.say(embed=embed)
-    
-@client.command(pass_context=True)
-async def help(ctx):
-    author = ctx.message.author
-    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
-    embed.set_author(name='Idk')
-    embed.add_field(name='Idk', value='Idk', inline=False)
-    await client.say(embed=embed)
+
+
+
+
+
 
 
 @client.event
@@ -258,8 +257,12 @@ async def on_command_error(error, ctx):
     channel = ctx.message.channel
     if isinstance(error, commands.CommandNotFound):
         embed = discord.Embed(color=0xff00e6)
-        embed.add_field(name='Incorrect Command!', value='Please use a command next time! \n Type ``>help`` For real commands!', inline=True)
+        embed.add_field(name='Incorrect Command!', value='```There was an error!\nWe will get the error ASAP```', inline=True)
         await client.send_message(channel, embed=embed)
+    if isinstance(error, commands.NoPrivateMessage):
+        embed = discord.Embed(color=0xff00e6)
+        embed.add_field(name='Unknown Error', value='```We beilive that you do not let random people text you!\nPlease enable your PM messages so you can see this amazing\nMessage!```', inline=True)
+        await client.say(embed=embed)
 
 @client.command(pass_context=True)
 async def ping(ctx):
@@ -322,20 +325,27 @@ async def poll(ctx, channel_name = None, *, text):
         await asyncio.sleep(2)
         await client.delete_message(msg)
 
+#Welcome and Leave messages!
+
+
 @client.event
 async def on_member_join(member):
     await client.change_presence(game=discord.Game(name=f"over {len(set(client.get_all_members()))} users - >help"))
     server = member.server
     channel = discord.utils.get(server.channels, name='welcome')
-    await client.send_message(channel, 'Hey {} Welcome to {}!'.format(member.mention, server.name))
+    embed = discord.Embed(color=0xdaff00)
+    embed.add_field(name='Welcome **{}**'.format(member.name), value='You have joined **{}** Please notify and follow the channels and rules of this server!', inline=False)
+    embed.set_footer(text=member.avatar_url)
+    await client.send_message(channel, embed=embed)
 
 @client.event
 async def on_member_remove(member):
     await client.change_presence(game=discord.Game(name=f"over {len(set(client.get_all_members()))} users - >help"))
     server = member.server
     channel = discord.utils.get(server.channels, name='welcome')
-    await client.send_message(channel, '{} Has just left {} :('.format(member.mention, server.name))
+    embed = discord.Embed(color=0xdaff00)
+    embed.add_field(name='Goodbye **{}**'.format(member.name), value='You will be missed!', inline=False)
+    embed.set_author(name=member.avatar_url)
+    await client.send_message(channel, embed=embed)
 
-if not os.environ.get('TOKEN'):
-    print("no token found!")
-client.run(os.environ.get('TOKEN').strip('"'))
+client.run(TOKEN)
