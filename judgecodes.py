@@ -268,7 +268,12 @@ async def help(ctx):
     embed.add_field(name=':lock:  | Utility Commands :', value='1. Invite: __Usage__: ``j!invite``', inline=False)
     embed.add_field(name=':warning: | Administration :', value='1. Welcome and Leave message! \n 2. Crole: __Usage__: ``j!crole <name>`` \n 3: Drole: __Usage__: ``j!crole <name>``', inline=True)
     embed.set_footer(text='Page 2/2')
-    await client.say(embed=embed)
+    msg = await client.say(embed=embed)
+    await client.add_reaction(msg, "\U0000004a")
+    await client.add_reaction(msg, "\U00000075")
+    await client.add_reaction(msg, "\U00000064")
+    await client.add_reaction(msg, "\U00000067")
+    await client.add_reaction(msg, "\U00000065")
 
 
 @client.command(pass_context=True)
