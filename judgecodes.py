@@ -14,6 +14,32 @@ async def on_ready():
     print('Logged in!')
     await client.change_presence(game=discord.Game(name=f"over {len(set(client.get_all_members()))} Users - >help"))
 
+
+extensions = ['moderation']
+extensions = ['welcomeleave']
+if __name__ == '__main__':
+    for extension in extensions:
+        try:
+            client.load_extension(extension)
+        except Exception as error:
+            print('{} cannot be loaded. [{}]'.format(extension, error))
+
+@client.command()
+async def install(extension):
+    try:
+        client.load_extension(extension)
+        print(f'Loaded {extension}')
+    except Exception as error:
+        print('{} cannot be loaded. [{}]'.format(extension, error))
+
+@client.command()
+async def uninstall(extension):
+    try:
+        client.unload_extension(extension)
+        print(f'Unloaded {extension}')
+    except Exception as error:
+        print('{} cannot be unloaded. [{}]'.format(extension, error))
+
 @client.command(pass_context=True)
 async def kick(ctx, user: discord.Member = None, *, reason=None):
     author = ctx.message.author
@@ -149,6 +175,7 @@ async def unmute(ctx, user: discord.Member = None, *, reason=None):
         embed = discord.Embed(color=0xff0000)
         embed.add_field(name=':no_entry_sign: **Error**', value='You could not use this command because: Missing Permissions; ``Mute Members``', inline=False)
         embed.set_footer(text='You cant use this command!')
+        await client.say(embed=embed)
 
 @client.command(pass_context=True)
 async def nick(ctx, member:discord.User=None, *, newnick=None):
@@ -183,7 +210,7 @@ async def clear(ctx, amount=None):
             channel = ctx.message.channel
             author = ctx.message.author
             messages = []
-            async for message in client.logs_from(channel, limit=int(amount)):
+            async for message in self.client.logs_from(channel, limit=int(amount)):
                 messages.append(message)
             await client.delete_messages(messages)
             embed = discord.Embed(color=0x36393E)
@@ -197,7 +224,33 @@ async def clear(ctx, amount=None):
         embed = discord.Embed(color=0xff0000)
         embed.add_field(name=':interrobang: **Error**', value='Oops! You cant use this command. Permission Required: ``Manage Messages``', inline=False)
         embed.set_footer(text='You cant use this command!')
-        await client.say(embed=embed)
+        await self.client.say(embed=embed)
+
+@client.command(pass_context=True)
+async def crole(ctx, *, role):
+    server = ctx.message.server
+    author = ctx.message.author
+    await client.create_role(server=server, name=role)
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Creation!', value=f"**{role}** Has been created!", inline=False)
+    embed.add_field(name='Author:', value=f"**{author}**", inline=True)
+    await client.say(embed=embed)
+
+
+@client.command(pass_context=True)
+async def drole(ctx, *, name):
+    author = ctx.message.author
+    server = ctx.message.server
+    role = discord.utils.get(ctx.message.server.roles, name=name)
+    await client.delete_role(server=server, role=role)
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Deletean!', value=f"**{name}** Has been deleted!", inline=False)
+    embed.add_field(name='Author:', value=f"**{author}**", inline=True)
+    await client.say(embed=embed)
+
+
+
+
 
 @client.command(pass_context=True)
 async def help(ctx):
@@ -205,18 +258,21 @@ async def help(ctx):
     embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
     embed.set_author(name='Judge Help!')
     embed.add_field(name='Main Commands', value='1. Sevrerinfo: __Usage__: ``j!serverinfo`` \n 2. Info: __Usage__: ``j!info @Savage``', inline=False)
-    embed.add_field(name='Fun Commands', value='1. Ping: __Usage__: ``j!ping`` \n 2. Jail: __Usage__: ``j!jail @Savage`` \n 3. Guilty: __Usage__: ``j!guilty @Savage``', inline=True)
-    embed.add_field(name='Legend', value=':key: Is the Short Cut to the other page of the help command!', inline=True)
+    embed.add_field(name=':tada: | Fun Commands :', value='1. Ping: __Usage__: ``j!ping`` \n 2. Jail: __Usage__: ``j!jail @Savage`` \n 3. Guilty: __Usage__: ``j!guilty @Savage`` \n 4. 8ball: __Usage__: ``j!8ball or eightball``', inline=True)
+    embed.add_field(name=':game_die: | Mini Games : ', value='1. Roll: __Usage__: ``j!roll`` \n 2. Card: __Usage__: ``j!card`` \n 3. Slots: __Usage__: ``j!slots``', inline=False)
+    embed.add_field(name=':map: | Legend :', value=':key: Is the Short Cut to the other page of the help command!', inline=True)
     embed.set_footer(text='Page 1/2')
     msg = await client.say(embed=embed)
     await client.add_reaction(msg, "\U0001f511")
     await client.add_reaction(msg, "\U0001f3c1")
-    await client.wait_for_reaction("\U0001f511")
+    await client.wait_for_reaction('\U0001f511')
     embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
-    embed.add_field(name='Moderation Commands', value='1. Kick: __Usage__: ``j!kick @Savage`` **Reason But you do not have to!** \n 2. Ban: __Usage__: ``j!ban @Savage`` **Reason But you do not have to!** \n 3. Mute: __Usage__: ``j!mute @Savage`` **Reason But you do not have to!** \n 4. Unmute: __Usage__: ``j!unmute @Savage`` \n 5. Clear: __Usage__: ``j!clear 5`` \n Nick: __Usage__: ``j!nick @Savage Dad``', inline=False)
-    embed.add_field(name='Utility Commands')
+    embed.add_field(name=':tools: | Moderation Commands :', value='1. Kick: __Usage__: ``j!kick @Savage`` **Reason But you do not have to!** \n 2. Ban: __Usage__: ``j!ban @Savage`` **Reason But you do not have to!** \n 3. Mute: __Usage__: ``j!mute @Savage`` **Reason But you do not have to!** \n 4. Unmute: __Usage__: ``j!unmute @Savage`` \n 5. Clear: __Usage__: ``j!clear 5`` \n 6. Nick: __Usage__: ``j!nick @Savage Dad``', inline=False)
+    embed.add_field(name=':lock:  | Utility Commands :', value='1. Invite: __Usage__: ``j!invite``', inline=False)
+    embed.add_field(name=':warning: | Administration :', value='1. Welcome and Leave message! \n 2. Crole: __Usage__: ``j!crole <name>`` \n 3: Drole: __Usage__: ``j!crole <name>``', inline=True)
     embed.set_footer(text='Page 2/2')
     await client.edit_message(msg, embed=embed)
+    await client.remove_reaction(emoji='\U0001f511', member=ctx.message.author, message=msg)
 
 
 @client.command(pass_context=True)
@@ -252,11 +308,11 @@ async def info(ctx, user: discord.Member = None):
 async def on_command_error(error, ctx):
     channel = ctx.message.channel
     if isinstance(error, commands.CommandNotFound):
-        embed = discord.Embed(color=0xff00e6)
-        embed.add_field(name='Incorrect Command!', value='```There was an error!\nWe will get the error ASAP```', inline=True)
+        embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+        embed.add_field(name='Incorrect Command!', value='```css\nThere was an error!\nWe will get the error ASAP```', inline=True)
         await client.send_message(channel, embed=embed)
     if isinstance(error, commands.NoPrivateMessage):
-        embed = discord.Embed(color=0xff00e6)
+        embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
         embed.add_field(name='Unknown Error', value='```We beilive that you do not let random people text you!\nPlease enable your PM messages so you can see this amazing\nMessage!```', inline=True)
         await client.say(embed=embed)
 
@@ -266,8 +322,15 @@ async def ping(ctx):
         t1 = time.perf_counter()
         await client.send_typing(channel)
         t2 = time.perf_counter()
-        embed=discord.Embed(title=":hourglass_flowing_sand:  Ping has been summoned:", description='**Latency: {}ms**'.format(round((t2-t1)*1000)), color=0x36393E)
+        embed = discord.Embed(title=":hourglass_flowing_sand:  Ping has been summoned:", description='**Latency: {}ms**'.format(round((t2-t1)*1000)), color=0x36393E)
         await client.say(embed=embed)
+
+@client.command()
+async def invite():
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.title = '**__Judge Bot Invite Link!__**'
+    embed.url = 'https://discordapp.com/oauth2/authorize?client_id=489935383128309770&permissions=8&scope=bot'
+    await client.say(embed=embed)
 
 
 @client.command(pass_context=True)
@@ -321,37 +384,140 @@ async def poll(ctx, channel_name = None, *, text):
         await asyncio.sleep(2)
         await client.delete_message(msg)
 
+#Games
+@client.command(pass_context=True)
+async def roll(ctx):
+    author = ctx.message.author
+    choices = [
+    'You rolled a ``6``!',
+    'You rolled a ``2``!',
+    'You rolled a ``3``!',
+    'You rolled a ``5``!',
+    'You rolled a ``4``!',
+    'You rolled ``Snake Eyes``',
+    ]
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.set_author(name='Rolling..')
+    msg = await client.say(embed=embed)
+    await asyncio.sleep(3)
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='{} Has Rolled!'.format(author.name), value=(random.choice(choices)), inline=False)
+    await client.edit_message(msg, embed=embed)
+
+@client.command(pass_context=True)
+async def card(ctx):
+    author = ctx.message.author
+    cards = [
+    'You pulled a ``Hearts (red)``',
+    'You pulled a ``Spades (black)``',
+    'You pulled a ``Clubs (green)``',
+    'You pulled a ``Clubs (green)``',
+    'You pulled a ``Diamonds (yellow)``',
+    ]
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.set_author(name='Picking..')
+    msg = await client.say(embed=embed)
+    await asyncio.sleep(3)
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='{} has pulled'.format(author.name), value=(random.choice(cards)), inline=False)
+    await client.edit_message(msg, embed=embed)
+
 @client.command()
-async def roll(dice : str):
-    """Rolls a dice in NdN format."""
-    try:
-        rolls, limit = map(int, dice.split('d'))
-    except Exception:
-        await client.say('Format has to be in NdN!')
-        return
+async def slots():
+    slots = [
+    ':cherries: :lemon: :cherries: :arrow_left:',
+    ':lemon: :cherries: :lemon: :arrow_left:',
+    ':lemon: :bell: :bell:  :arrow_left:',
+    ':bell: :lemon: :grapes:  :arrow_left:',
+    ':bell: :grapes: :bell: :arrow_left:',
+    ':cherries: :bell: :bell: :arrow_left:',
+    ':bell: :bell: :bell: :arrow_left:',
+    ':grapes: :grapes: :grapes: :arrow_left:',
+    ':lemon: :lemon: :lemon: :arrow_left:',
+    ':cherries: :cherries: :cherries: :arrow_left:',
+    ]
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Slotting', value='Almost there!', inline=False)
+    msg = await client.say(embed=embed)
+    await asyncio.sleep(.50)
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name=':slot_machine: Slots - End :slot_machine:', value='You Got:', inline=False)
+    embed.add_field(name='Slot Machine:', value='', inline=True)
+    embed.set_footer(text='Slot Machine!')
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name=':slot_machine: Slots - End :slot_machine:', value='You Got:', inline=False)
+    embed.add_field(name='Slot Machine:', value=(random.choice(slots)), inline=True)
+    embed.set_footer(text='Slot Machine!')
+    await client.edit_message(msg, embed=embed)
+    await asyncio.sleep(.50)
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name=':slot_machine: Slots - End :slot_machine:', value='You Got:', inline=False)
+    embed.add_field(name='Slot Machine:', value=(random.choice(slots)), inline=True)
+    embed.set_footer(text='Slot Machine!')
+    await client.edit_message(msg, embed=embed)
+    await asyncio.sleep(.50)
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name=':slot_machine: Slots - End :slot_machine:', value='You Got:', inline=False)
+    embed.add_field(name='Slot Machine:', value=(random.choice(slots)), inline=True)
+    embed.set_footer(text='Slot Machine!')
+    await client.edit_message(msg, embed=embed)
+    await asyncio.sleep(.50)
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name=':slot_machine: Slots - End :slot_machine:', value='You Got:', inline=False)
+    embed.add_field(name='Slot Machine:', value=(random.choice(slots)), inline=True)
+    embed.add_field(name='Winning Number!', value=(random.choice(winner)), inline=False)
+    embed.set_footer(text='Slot Machine!')
+    await client.edit_message(msg, embed=embed)
+    winner = [
+    ':cherries: :lemon: :cherries: :arrow_left:',
+    ':lemon: :cherries: :lemon: :arrow_left:',
+    ':lemon: :bell: :bell:  :arrow_left:',
+    ':bell: :lemon: :grapes:  :arrow_left:',
+    ':bell: :grapes: :bell: :arrow_left:',
+    ':cherries: :bell: :bell: :arrow_left:',
+    ':bell: :bell: :bell: :arrow_left:',
+    ':grapes: :grapes: :grapes: :arrow_left:',
+    ':lemon: :lemon: :lemon: :arrow_left:',
+    ':cherries: :cherries: :cherries: :arrow_left:',
+    ]
 
-    result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
-    await client.say(result)
-
-#Welcome and Leave messages!
 
 
-@client.event
-async def on_member_join(member):
-    await client.change_presence(game=discord.Game(name=f"over {len(set(client.get_all_members()))} users - >help"))
-    server = member.server
-    channel = discord.utils.get(server.channels, name='welcome')
-    embed = discord.Embed(color=0xdaff00)
-    embed.add_field(name='Welcome **{}**'.format(member.name), value='You have joined **{}** Please notify and follow the channels and rules of this server!'.format(server.name), inline=False)
-    await client.send_message(channel, embed=embed)
+@client.command(aliases=['8ball'])
+async def eight_ball():
+    choices = [
+    'Does not look possible at all!',
+    'Are you out of your mind? Never.',
+    'Maybe, in 10000 Years.',
+    'It looks like a good chance!',
+    'Yup it is!',
+    ]
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='8ball-Command :8ball: ', value=(random.choice(choices)), inline=False)
+    embed.set_footer(text='--Judge Bot!--')
+    await client.say(embed=embed)
 
-@client.event
-async def on_member_remove(member):
-    await client.change_presence(game=discord.Game(name=f"over {len(set(client.get_all_members()))} users - >help"))
-    server = member.server
-    channel = discord.utils.get(server.channels, name='welcome')
-    embed = discord.Embed(color=0xdaff00)
-    embed.add_field(name='Goodbye **{}**'.format(member.name), value='You will be missed!', inline=False)
-    await client.send_message(channel, embed=embed)
+@client.command(pass_context=True)
+async def chelp(ctx):
+    author = ctx.message.author
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Command Help!', value='Please read through this help command and you will know alot!', inline=False)
+    embed.add_field(name='Quick Description', value='Since my advanced help command isnt providing summaries of each **Command** \n I will tell you all of the meanings!', inline=True)
+    embed.add_field(name='Slot Machine!', value='This is a working slot machine! Sadly we do not give money yet!', inline=True)
+    embed.add_field(name='Card', value='Still in development!', inline=False)
+    embed.add_field(name='Roll', value='This command will say a random number between \n 1-6!', inline=True)
+    embed.add_field(name='8ball', value='The command will say 5 answers! Just see what it has to offer!', inline=False)
+    embed.add_field(name='Jail & Guilty', value='This command will just say Guilty or no and Jail or  Not!', inline=True)
+    await client.send_message(author, embed=embed)
+
+
+@client.command(pass_context=True)
+async def profile(ctx, user: discord.Member = None):
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Hi! You asked for an avatar!', value='{}s avatar!', inline=True)
+    embed.set_image(url=user.avatar_url)
+    embed.set_footer(text='The avatar!')
+    await client.say(embed=embed)
+
 
 client.run(TOKEN)
