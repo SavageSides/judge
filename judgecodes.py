@@ -155,7 +155,7 @@ async def unmute(ctx, user: discord.Member = None, *, reason=None):
             embed.set_footer(text='You need permission to continue if you dont have!')
             await client.say(embed=embed)
         else:
-            await client.add_roles(user, MutedRole)
+            await client.remove_roles(user, MutedRole)
             embed = discord.Embed(color=0xff00e6)
             embed.set_author(name='Unmute - Information')
             embed.add_field(name='**Server:**', value='**{}**'.format(server.name), inline=False)
