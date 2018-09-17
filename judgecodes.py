@@ -263,7 +263,6 @@ async def channel(ctx, *, name):
 async def delchannel(ctx, *, name):
     author = ctx.message.author 
     server = ctx.message.server
-    channel = discord.utils.get(ctx.message.server.channels, name=name)
     await client.delete_channel(server=server, name=name)
     embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
     embed.add_field(name='Deletion!', value=f"**{name}** Has been deleted!", inline=False)
