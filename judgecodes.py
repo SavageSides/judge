@@ -247,6 +247,28 @@ async def drole(ctx, *, name):
     embed.add_field(name='Deletean!', value=f"**{name}** Has been deleted!", inline=False)
     embed.add_field(name='Author:', value=f"**{author}**", inline=True)
     await client.say(embed=embed)
+    
+@client.command(pass_context=True)
+async def channel(ctx, *, name):
+    author = ctx.message.author
+    server = ctx.message.server
+    channel = discord.utils.get(ctx.message.server.channels, name=name)
+    await client.create_channel(server=server, name=name)
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Creation!', value=f"**{name}** Has been created!", inline=False)
+    embed.add_field(name='Author:', value=f"**{author}**", inline=True)
+    await client.say(embed=embed)
+
+@client.command(pass_context=True)
+async def dhannel(ctx, *, name):
+    author = ctx.message.author 
+    server = ctx.message.server
+    channel = discord.utils.get(ctx.message.server.channels, name=name)
+    await client.delete_channel(server=server, name=name)
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Deletion!', value=f"**{name}** Has been deleted!", inline=False)
+    embed.add_field(name='Author:', value=f"**{author}**", inline=True)
+    await client.say(embed=embed)
 
 
 
