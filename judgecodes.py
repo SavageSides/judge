@@ -263,17 +263,18 @@ async def help(ctx):
     embed.add_field(name=':map: | Legend :', value=':key: Is the Short Cut to the other page of the help command!', inline=True)
     embed.set_footer(text='Page 1/2')
     await client.say(embed=embed)
-    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
-    embed.add_field(name=':tools: | Moderation Commands :', value='1. Kick: __Usage__: ``j!kick @Savage`` **Reason But you do not have to!** \n 2. Ban: __Usage__: ``j!ban @Savage`` **Reason But you do not have to!** \n 3. Mute: __Usage__: ``j!mute @Savage`` **Reason But you do not have to!** \n 4. Unmute: __Usage__: ``j!unmute @Savage`` \n 5. Clear: __Usage__: ``j!clear 5`` \n 6. Nick: __Usage__: ``j!nick @Savage Dad``', inline=False)
-    embed.add_field(name=':lock:  | Utility Commands :', value='1. Invite: __Usage__: ``j!invite``', inline=False)
-    embed.add_field(name=':warning: | Administration :', value='1. Welcome and Leave message! \n 2. Crole: __Usage__: ``j!crole <name>`` \n 3: Drole: __Usage__: ``j!crole <name>``', inline=True)
-    embed.set_footer(text='Page 2/2')
-    msg = await client.say(embed=embed)
     await client.add_reaction(msg, "\U0000004a")
     await client.add_reaction(msg, "\U00000075")
     await client.add_reaction(msg, "\U00000064")
     await client.add_reaction(msg, "\U00000067")
     await client.add_reaction(msg, "\U00000065")
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name=':tools: | Moderation Commands :', value='1. Kick: __Usage__: ``j!kick @Savage`` **Reason But you do not have to!** \n 2. Ban: __Usage__: ``j!ban @Savage`` **Reason But you do not have to!** \n 3. Mute: __Usage__: ``j!mute @Savage`` **Reason But you do not have to!** \n 4. Unmute: __Usage__: ``j!unmute @Savage`` \n 5. Clear: __Usage__: ``j!clear 5`` \n 6. Nick: __Usage__: ``j!nick @Savage Dad``', inline=False)
+    embed.add_field(name=':lock:  | Utility Commands :', value='1. Invite: __Usage__: ``j!invite``', inline=False)
+    embed.add_field(name=':warning: | Administration :', value='1. Welcome and Leave message! \n 2. Crole: __Usage__: ``j!crole <name>`` \n 3: Drole: __Usage__: ``j!crole <name>``', inline=True)
+    embed.set_footer(text='Page 2/2')
+    await client.say(embed=embed)
+
 
 
 @client.command(pass_context=True)
@@ -520,5 +521,43 @@ async def profile(ctx, user: discord.Member = None):
     embed.set_footer(text='The avatar!')
     await client.say(embed=embed)
 
+@client.command()
+async def add(left : int, right : int):
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Math Equations!', value='**{} + {} = {}**'.format(left, right, left + right), inline=True)
+    await client.say(embed=embed)
+
+@client.command()
+async def sub(left : int, right : int):
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Math Equations!', value='**{} - {} = {}**'.format(left, right, left - right), inline=True)
+    await client.say(embed=embed)
+
+@client.command()
+async def mul(left : int, right : int):
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Math Equations!', value='**{} x {} = {}**'.format(left, right, left * right), inline=True)
+    await client.say(embed=embed)
+
+@client.command()
+async def div(left : int, right : int):
+    embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
+    embed.add_field(name='Math Equations!', value='**{} / {} = {}**'.format(left, right, left / right), inline=True)
+    await client.say(embed=embed)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Welcome and Leave messages!
 
 client.run(TOKEN)
