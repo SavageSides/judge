@@ -260,7 +260,7 @@ async def channel(ctx, *, name):
     await client.say(embed=embed)
 
 @client.command(pass_context=True)
-async def dhannel(ctx, *, name):
+async def delchannel(ctx, *, name):
     author = ctx.message.author 
     server = ctx.message.server
     channel = discord.utils.get(ctx.message.server.channels, name=name)
@@ -288,7 +288,7 @@ async def help(ctx):
     embed = discord.Embed(color=random.randint(0, 0xFFFFFF))
     embed.add_field(name=':tools: | Moderation Commands :', value='1. Kick: __Usage__: ``j!kick @Savage`` **Reason But you do not have to!** \n 2. Ban: __Usage__: ``j!ban @Savage`` **Reason But you do not have to!** \n 3. Mute: __Usage__: ``j!mute @Savage`` **Reason But you do not have to!** \n 4. Unmute: __Usage__: ``j!unmute @Savage`` \n 5. Clear: __Usage__: ``j!clear 5`` \n 6. Nick: __Usage__: ``j!nick @Savage Dad``', inline=False)
     embed.add_field(name=':lock:  | Utility Commands :', value='1. Invite: __Usage__: ``j!invite``', inline=False)
-    embed.add_field(name=':warning: | Administration :', value='1. Welcome and Leave message! \n 2. Crole: __Usage__: ``j!crole <name>`` \n 3: Drole: __Usage__: ``j!crole <name>``', inline=True)
+    embed.add_field(name=':warning: | Administration :', value='1. Welcome and Leave message! \n 2. Crole: __Usage__: ``j!crole <name>`` \n 3: Drole: __Usage__: ``j!crole <name>`` \n 4. Channel: __Usage__: ``j!channel <name>``', inline=True)
     embed.set_footer(text='Page 2/2')
     await client.say(embed=embed)
 
